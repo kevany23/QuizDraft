@@ -13,7 +13,15 @@
   <div>
     <h1><%= quiz.name %></h1>
     <h3><%= quiz.subject %></h3>
-    <button>Edit</button>
+    Edit Quiz Info:
+    <form method="POST" action=<%= "/editQuiz/" + quiz.id%>>
+      <label for="name">Name</label>
+      <input type="text" value= "<%= quiz.name %>" name="name" id="name">
+      <br>
+      <label for="subject">Subject</label>
+      <input type="text" value="<%= quiz.subject %>" name="subject" id="subject">
+      <input type="submit" value="Edit">
+    </form>
   </div>
   <div>
     <h2>Questions</h2>

@@ -40,6 +40,20 @@ app.post('/createQuiz', async (req, res) => {
   }
 })
 
+app.post('/editQuiz/:id', async (req, res) => {
+  let id = req.params.id;
+  let { name, subject } = req.body;
+  try {
+    let quizLookup = await Database.Quiz.findByIdAndUpdate(id, {
+      name: name,
+      subject: subject
+    });
+    res.redirect(`/quiz/${id}`);
+  } catch(err) {
+    res.status(404).send("Quiz Edit Error");
+  }
+})
+
 app.post('/addQuestion/:id', async (req, res) => {
   let id = req.params.id;
   let { question, answer } = req.body;
@@ -55,6 +69,16 @@ app.post('/addQuestion/:id', async (req, res) => {
     res.status(404).send("Add question error");
   }
   res.redirect('back');
+})
+
+app.get('/getQuizzes', async (req, res) => {
+  let quizList = await Database.Quiz.find();
+  console.log(quizList);
+  try {
+    res.render('quizlist.ejs', { quizList: quizList });
+  } catch(err) {
+    res.status(404).send("Not found");
+  }
 })
 
 app.listen(port, () => {
