@@ -4,6 +4,9 @@ const port = 3000;
 const Database = require('./database');
 app.use(express.urlencoded({extended: true}));
 
+console.log(process.argv);
+console.log(process.argv.length);
+
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
@@ -73,7 +76,7 @@ app.post('/addQuestion/:id', async (req, res) => {
 
 app.get('/getQuizzes', async (req, res) => {
   let quizList = await Database.Quiz.find();
-  console.log(quizList);
+  //console.log(quizList);
   try {
     res.render('quizlist.ejs', { quizList: quizList });
   } catch(err) {
