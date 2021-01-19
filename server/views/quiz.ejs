@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>QuizDraft</title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div>
+    <h1><%= quiz.name %></h1>
+    <h3><%= quiz.subject %></h3>
+    <button>Edit</button>
+  </div>
+  <div>
+    <h2>Questions</h2>
+    <ul style="list-style-type:none">
+      <% for (let quizQuestion of quiz.quizQuestions) {%>
+        <li><%=quizQuestion.question %></li>
+        <li><%=quizQuestion.answer %></li>
+        <br>
+      <% } %>
+    </ul>
+    <div>
+      <h3>Add Question</h3>
+      <form method="POST" action=<%= "/addQuestion/" + quiz.id %>>
+        <label for="question"> Question</label>
+        <input type="text" name="question" id="question">
+        <br>
+        <label for="answer">Answer</label>
+        <input type="text" name="answer" id="answer">
+        <br>
+        <input type="submit">
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

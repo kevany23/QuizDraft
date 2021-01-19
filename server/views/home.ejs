@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>QuizDraft</title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <div>
+    <form>
+      <p>Enter Practice Quiz URL</p>
+      <input type="text">
+    </form>
+    <p>OR</p>
+    <br>
+    Create a new practice quiz:
+    <br>
+    <form action = "/createQuiz" method="POST">
+      <label for="name">Quiz Name</label>
+      <input type="text" name="name" id="name">
+      <br>
+      <label for="subject">Subject</label>
+      <input type="text" name="subject" id="subject">
+      <br>
+      <input type="submit" value="Create">
+    </form>
+  </div>
+</body>
+
+</html>
