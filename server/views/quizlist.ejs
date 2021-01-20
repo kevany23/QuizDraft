@@ -14,7 +14,7 @@
     <ul style="list-style-type:none">
     <% for (let quiz of quizList) { %>
       <li>
-        <a href=<%= `/quiz/${quiz._id}`%>>
+        <a href=<%= `/client/quiz/${quiz._id}`%>>
           <%= quiz.name %>, <%= quiz.subject %>
         </a>
       </li>

@@ -14,7 +14,7 @@
     <h1><%= quiz.name %></h1>
     <h3><%= quiz.subject %></h3>
     Edit Quiz Info:
-    <form method="POST" action=<%= "/editQuiz/" + quiz.id%>>
+    <form method="POST" action=<%= "/client/editQuiz/" + quiz.id%>>
       <label for="name">Name</label>
       <input type="text" value= "<%= quiz.name %>" name="name" id="name">
       <br>
@@ -34,7 +34,7 @@
     </ul>
     <div>
       <h3>Add Question</h3>
-      <form method="POST" action=<%= "/addQuestion/" + quiz.id %>>
+      <form method="POST" action=<%= "/client/addQuestion/" + quiz.id %>>
         <label for="question"> Question</label>
         <input type="text" name="question" id="question">
         <br>
