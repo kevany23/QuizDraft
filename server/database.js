@@ -6,7 +6,6 @@ const ObjectId = mongoose.ObjectId;
 /*
 Connection setup here
 */
-console.log(config.DATABASE_URL);
 mongoose.connect(config.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
