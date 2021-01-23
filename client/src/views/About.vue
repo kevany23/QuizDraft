@@ -1,6 +1,10 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div id="mainDiv">
+    <h3>About Quizdraft</h3>
+    <p>
+      A study web-based application that allows you to create practice quizzes
+      with questions and answers.
+    </p>
   </div>
 </template>
 
@@ -10,3 +14,11 @@ export default {
   components: {}
 }
 </script>
+
+<style>
+#mainDiv {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+</style>

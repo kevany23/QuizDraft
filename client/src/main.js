@@ -7,6 +7,7 @@ import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.config.productionTip = false;
+document.title = "QuizDraft";
 
 new Vue({
   router,
