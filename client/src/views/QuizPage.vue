@@ -1,7 +1,19 @@
 <template>
   <div id="mainDiv">
     <h3>{{ this.quizName }}</h3>
-    <h5>{{ this.subject }}</h5>
+    <h6>{{ this.subject }}</h6>
+    <div id="modeDiv">
+      <b-breadcrumb>
+        <b-breadcrumb-item
+          v-for="item in displayOptions"
+          :key = "item.text"
+          :active="!! item.active"
+          v-on:click="setMode(item.mode)"
+        >
+          {{ item.text }}
+        </b-breadcrumb-item>
+      </b-breadcrumb>
+    </div>
     <div id="questionDiv">
       <div
         v-for="quizQuestion in this.quizQuestions"
@@ -15,6 +27,24 @@
         </b-card>
       </div>
     </div>
+    <div>
+      <h4>Add Question</h4>
+      <div id="addQuestionDiv">
+        <b-form>
+          <b-form-input v-model="text" placeholder="Question"
+            style="margin-bottom: 10px"
+          >
+          </b-form-input>
+          <b-form-input v-model="text" placeholder="Answer"
+            style="margin-bottom: 10px"
+          >
+          </b-form-input>
+          <b-button type="submit" variant="primary">
+            Submit
+          </b-button>
+        </b-form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,7 +54,7 @@ import { log, url } from "@/config/config";
 
 /* Serves as 'enum' for display modes */
 const mode = {
-  normal: 1,
+  study: 1,
   flashcard: 2,
   test: 3
 }
@@ -62,9 +92,39 @@ export default {
       subject: "",
       questions: [],
       quizQuestions: [],
-      mode: mode.normal,
+      mode: mode.study,
+      displayOptions: [
+        {
+          text: "Study",
+          active: true,
+          mode: mode.study
+        },
+        {
+          text: "Flashcard",
+          active: false,
+          mode: mode.flashcard
+        },
+        {
+          text: "Test",
+          active: false,
+          mode: mode.test
+        }
+      ]
     };
   },
+  methods: {
+    setMode: function(mode) {
+      for (let option of this.displayOptions) {
+        if (option.mode == mode) {
+          option.active = true;
+        } else if (option.mode == this.mode) {
+          option.active = false;
+        }
+      }
+      this.mode = mode;
+      // change display
+    }
+  }
 };
 </script>
 
@@ -81,12 +141,22 @@ export default {
   align-items: center;
   padding-bottom: 30px;
   margin-bottom: 50px;
-  margin-top: 20px;
 }
 .questionCard {
   width: 600px;
   margin-left: 10px;
   margin-right: 10px;
   margin: 20px 80px 0px 80px;
+}
+
+#modeDiv {
+  margin-top: 20px;
+}
+
+#addQuestionDiv {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
 }
 </style>

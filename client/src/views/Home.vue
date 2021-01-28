@@ -23,6 +23,9 @@
         <b-button v-on:click="createQuiz">Create</b-button>
       </b-form>
     </div>
+    <div>
+      <a href="/quizlist">Quiz List</a>
+    </div>
   </div>
 </template>
 
@@ -47,12 +50,14 @@ export default {
         quizSubject: this.createQuizSubject
       })
       .then((res) => {
-        console.log("Success");
+        log("Success");
         let id = res.data.id;
         log(id);
         this.$router.push(`/quiz/${id}`);
       })
-      .catch(() => {})
+      .catch((err) => {
+        log(err);
+      })
     }
   }
 };
@@ -66,6 +71,7 @@ export default {
 
 #formDiv {
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .formInput {

@@ -55,6 +55,15 @@ app.post('/createQuiz', async (req, res) => {
   }
 })
 
+app.get('/quizList', async (req, res) => {
+  let quizList = await Database.Quiz.find();
+  try {
+    res.status(200).send(quizList);
+  } catch(err) {
+    res.status(404).send("Not found");
+  }
+})
+
 app.listen(port, () => {
   console.log("Server connected.")
 });
