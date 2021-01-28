@@ -22,6 +22,13 @@
 import axios from "axios";
 import { log, url } from "@/config/config";
 
+/* Serves as 'enum' for display modes */
+const mode = {
+  normal: 1,
+  flashcard: 2,
+  test: 3
+}
+
 export default {
   name: "QuizPage",
   components: {},
@@ -55,6 +62,7 @@ export default {
       subject: "",
       questions: [],
       quizQuestions: [],
+      mode: mode.normal,
     };
   },
 };
@@ -73,6 +81,7 @@ export default {
   align-items: center;
   padding-bottom: 30px;
   margin-bottom: 50px;
+  margin-top: 20px;
 }
 .questionCard {
   width: 600px;
