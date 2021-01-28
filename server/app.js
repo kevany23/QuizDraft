@@ -7,7 +7,7 @@ console.log("PORT: " + port);
 const Database = require('./database');
 const client = require('./client');
 app.use(cors());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/client', client);
 
@@ -59,8 +59,25 @@ app.get('/quizList', async (req, res) => {
   let quizList = await Database.Quiz.find();
   try {
     res.status(200).send(quizList);
-  } catch(err) {
+  } catch (err) {
     res.status(404).send("Not found");
+  }
+})
+
+app.post('/addQuestion/:id', async (req, res) => {
+  try {
+    let id = req.params.id;
+    let { question, answer } = req.body;
+    let quiz = await Database.Quiz.findById(id);
+    let quizQuestion = new Database.QuizQuestion({
+      quizId: id,
+      question: question,
+      answer: answer
+    });
+    await quizQuestion.save();
+    res.status(200).send(quizQuestion);
+  } catch (err) {
+    res.status(404).send("Failed to add question");
   }
 })
 

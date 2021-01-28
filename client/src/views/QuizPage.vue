@@ -31,15 +31,19 @@
       <h4>Add Question</h4>
       <div id="addQuestionDiv">
         <b-form>
-          <b-form-input v-model="text" placeholder="Question"
+          <b-form-input
+            placeholder="Question"
             style="margin-bottom: 10px"
+            v-model="newQuestion"
           >
           </b-form-input>
-          <b-form-input v-model="text" placeholder="Answer"
+          <b-form-input
+            placeholder="Answer"
             style="margin-bottom: 10px"
+            v-model="newAnswer"
           >
           </b-form-input>
-          <b-button type="submit" variant="primary">
+          <b-button variant="primary" v-on:click="addQuestion">
             Submit
           </b-button>
         </b-form>
@@ -56,7 +60,7 @@ import { log, url } from "@/config/config";
 const mode = {
   study: 1,
   flashcard: 2,
-  test: 3
+  test: 3,
 }
 
 export default {
@@ -65,8 +69,7 @@ export default {
   created() {
     this.quizName = "";
     this.id = this.$route.params.id;
-    axios
-      .get(url(`quiz/${this.id}`), {})
+    axios.get(url(`quiz/${this.id}`), {})
       .then((res) => {
         this.quizName = res.data.name;
         this.id = res.data._id;
@@ -109,7 +112,9 @@ export default {
           active: false,
           mode: mode.test
         }
-      ]
+      ],
+      newQuestion: "",
+      newAnswer: ""
     };
   },
   methods: {
@@ -123,6 +128,18 @@ export default {
       }
       this.mode = mode;
       // change display
+    },
+    addQuestion: function() {
+      axios.post(url(`addQuestion/${this.id}`), {
+        question: this.newQuestion,
+        answer: this.newAnswer
+      })
+      .then((res) => {
+        this.quizQuestions.push(res.data);
+      })
+      .catch( () => {
+        log("Error");
+      });
     }
   }
 };
