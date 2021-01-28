@@ -7,24 +7,52 @@
       <h4>Create a form:</h4>
       <b-form>
         <label for="name">Quiz Name</label>
-        <b-form-input class="formInput" id="name"></b-form-input>
+        <b-form-input
+          class="formInput"
+          id="name"
+          v-model="createQuizName"
+        >
+        </b-form-input>
         <label for="subject"> Subject </label>
-        <b-form-input class="formInput" id="subject"></b-form-input>
-        <b-button type="submit">Create</b-button>
+        <b-form-input
+          class="formInput"
+          id="subject"
+          v-model="createQuizSubject"
+          >
+        </b-form-input>
+        <b-button v-on:click="createQuiz">Create</b-button>
       </b-form>
     </div>
   </div>
 </template>
 
 <script>
-import { foobar } from '../config/config.js';
+import { log, url } from '@/config/config';
+import axios from 'axios';
 
 export default {
   name: "Home",
   components: {},
   data: function() {
     return {
-      foo: foobar
+      createQuizName: "",
+      createQuizSubject: ""
+    }
+  },
+  methods: {
+    createQuiz: function() {
+      log("createQuiz called");
+      axios.post(url('createQuiz'), {
+        quizName: this.createQuizName,
+        quizSubject: this.createQuizSubject
+      })
+      .then((res) => {
+        console.log("Success");
+        let id = res.data.id;
+        log(id);
+        this.$router.push(`/quiz/${id}`);
+      })
+      .catch(() => {})
     }
   }
 };

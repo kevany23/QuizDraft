@@ -59,8 +59,15 @@ async function getQuizQuestions(quiz) {
   let id = quiz.id;
   let findResult = await QuizQuestion.find({ quizId: id });
   quiz.quizQuestions = findResult;
+  return findResult;
+}
+
+async function getQuizQuestionsById(id) {
+  var findResult = await QuizQuestion.find({ quizId: id });
+  return findResult;
 }
 
 module.exports.Quiz = Quiz;
 module.exports.QuizQuestion = QuizQuestion;
 module.exports.getQuizQuestions = getQuizQuestions;
+module.exports.getQuizQuestionsById = getQuizQuestionsById;
