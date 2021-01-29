@@ -81,6 +81,23 @@ app.post('/addQuestion/:id', async (req, res) => {
   }
 })
 
+app.post('/editQuiz/:id', async (req, res) => {
+  let id = req.params.id;
+  let { name, subject } = req.body;
+  try {
+    let quizLookup = await Database.Quiz.findByIdAndUpdate(id, {
+      name: name,
+      subject: subject
+    });
+    res.status(200).send({
+      name: name,
+      subject: subject
+    });
+  } catch(err) {
+    res.status(404).send("Quiz Edit Error");
+  }
+})
+
 app.listen(port, () => {
   console.log("Server connected.")
 });

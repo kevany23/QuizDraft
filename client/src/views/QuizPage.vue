@@ -1,7 +1,45 @@
 <template>
   <div id="mainDiv">
-    <h3>{{ this.quizName }}</h3>
-    <h6>{{ this.subject }}</h6>
+    <div id="titleDiv">
+      <h3>{{ this.quizName }}</h3>
+      <h6>{{ this.subject }}</h6>
+    </div>
+    <b-popover target="titleDiv" triggers="hover"
+      placement="bottom">
+      <b-icon icon="pencil-fill"
+        v-on:click="showEditQuiz = ! showEditQuiz"
+      >
+      </b-icon>
+    </b-popover>
+    <div v-if="showEditQuiz">
+      <b-form>
+        <b-form-input
+          type="text"
+          placeholder="Quiz"
+          v-model="editQuizName"
+        >
+        </b-form-input>
+        <b-form-input
+          type="text"
+          placeholder="Subject"
+          v-model="editSubject"
+        >
+        </b-form-input>
+        <b-button variant="primary"
+          class="editQuizButton"
+          style="margin-right: 15px"
+          v-on:click="editQuiz"
+        >
+        Save
+        </b-button>
+        <b-button
+        class="editQuizButton"
+        v-on:click="showEditQuiz = ! showEditQuiz"
+        >
+        Cancel
+        </b-button>
+      </b-form>
+    </div>
     <div id="modeDiv">
       <b-breadcrumb>
         <b-breadcrumb-item
@@ -15,16 +53,31 @@
       </b-breadcrumb>
     </div>
     <div id="questionDiv">
-      <div
-        v-for="quizQuestion in this.quizQuestions"
-        :key="quizQuestion.id"
-        class="questionCard"
-      >
-        <b-card>
-          <p>{{ quizQuestion.question }}</p>
-          <br />
-          <p>{{ quizQuestion.answer }}</p>
-        </b-card>
+      <div v-if="mode == 1">
+        <div
+          v-for="quizQuestion in this.quizQuestions"
+          :key="quizQuestion.id"
+          class="questionCard"
+        >
+          <b-card>
+            <p>{{ quizQuestion.question }}</p>
+            <br />
+            <p>{{ quizQuestion.answer }}</p>
+          </b-card>
+        </div>
+      </div>
+      <div v-if="mode == 2">
+        <div
+          class="questionCard"
+          v-for="quizQuestion in this.quizQuestions"
+          :key="quizQuestion.id"
+        >
+          <Flashcard v-bind:question="quizQuestion.question"
+            v-bind:answer="quizQuestion.answer"
+          />
+        </div>
+      </div>
+      <div v-if="mode == 3">
       </div>
     </div>
     <div>
@@ -55,6 +108,7 @@
 <script>
 import axios from "axios";
 import { log, url } from "@/config/config";
+import Flashcard from "@/components/Flashcard.vue"
 
 /* Serves as 'enum' for display modes */
 const mode = {
@@ -65,15 +119,19 @@ const mode = {
 
 export default {
   name: "QuizPage",
-  components: {},
+  components: {
+    Flashcard
+  },
   created() {
     this.quizName = "";
     this.id = this.$route.params.id;
     axios.get(url(`quiz/${this.id}`), {})
       .then((res) => {
         this.quizName = res.data.name;
+        this.editQuizName = this.quizName;
         this.id = res.data._id;
         this.subject = res.data.subject;
+        this.editSubject = this.subject;
         axios.get(url(`quizQuestions/${this.id}`)).then(
           (res) => {
             this.quizQuestions = res.data;
@@ -93,6 +151,8 @@ export default {
       quizName: "",
       id: -1,
       subject: "",
+      editQuizName: this.quizName,
+      editSubject: this.subject,
       questions: [],
       quizQuestions: [],
       mode: mode.study,
@@ -114,7 +174,8 @@ export default {
         }
       ],
       newQuestion: "",
-      newAnswer: ""
+      newAnswer: "",
+      showEditQuiz: false,
     };
   },
   methods: {
@@ -136,6 +197,19 @@ export default {
       })
       .then((res) => {
         this.quizQuestions.push(res.data);
+      })
+      .catch( () => {
+        log("Error");
+      });
+    },
+    editQuiz: function() {
+      axios.post(url(`editQuiz/${this.id}`), {
+        name: this.editQuizName,
+        subject: this.editSubject
+      })
+      .then((res) => {
+        this.quizName = res.data.name;
+        this.subject = res.data.subject;
       })
       .catch( () => {
         log("Error");
@@ -175,5 +249,10 @@ export default {
   display: flex;
   flex-direction: column;
   width: 600px;
+}
+
+.editQuizButton {
+  margin-top: 10px;
+  width: 80px;
 }
 </style>
