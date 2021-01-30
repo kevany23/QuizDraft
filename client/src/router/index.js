@@ -5,6 +5,7 @@ import About from '../views/About.vue'
 import VuePage from '../views/VuePage.vue'
 import QuizPage from '../views/QuizPage.vue'
 import QuizList from '../views/QuizList.vue'
+import SearchQuiz from '../views/SearchQuiz.vue'
 
 Vue.use(VueRouter)
 
@@ -32,7 +33,12 @@ const routes = [
   {
     path: '/quizlist',
     name: 'QuizList',
-    component: QuizList,
+    component: QuizList
+  },
+  {
+    path: '/search',
+    name: 'SearchQuiz',
+    component: SearchQuiz
   }
 ]
 

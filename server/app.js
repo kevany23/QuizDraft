@@ -64,6 +64,41 @@ app.get('/quizList', async (req, res) => {
   }
 })
 
+app.get('/searchQuiz', async (req, res) => {
+  let query = req.query.query;
+  var map = new Map();
+  try {
+    // search by both Quiz Name and subject
+    // Map to prevent duplicates
+    let nameSearch = await Database.Quiz.find({
+      name: {
+        $regex: query,
+        $options: 'i'
+      }
+    });
+    for (let quiz of nameSearch) {
+      map.set(quiz._id.toString(), quiz);
+    }
+    let subjectSearch = await Database.Quiz.find({
+      subject: {
+        $regex: query,
+        $options: 'i'
+      }
+    })
+    for (let quiz of subjectSearch) {
+      map.set(quiz._id.toString(), quiz)
+    }
+    let quizList = [];
+    for (let value of map.values()) {
+      quizList.push(value);
+    }
+    res.status(200).json(quizList);
+
+  } catch (err) {
+    res.status(404).send("Search error");
+  }
+})
+
 app.post('/addQuestion/:id', async (req, res) => {
   try {
     let id = req.params.id;
@@ -93,7 +128,7 @@ app.post('/editQuiz/:id', async (req, res) => {
       name: name,
       subject: subject
     });
-  } catch(err) {
+  } catch (err) {
     res.status(404).send("Quiz Edit Error");
   }
 })
@@ -105,8 +140,8 @@ app.post('/editQuestion', async (req, res) => {
       question: question,
       answer: answer,
     })
-    res.status(200).send({ id, question, answer});
-  } catch(err) {
+    res.status(200).send({ id, question, answer });
+  } catch (err) {
     res.status(404).send("Question Edit Error");
   }
 })
@@ -116,7 +151,7 @@ app.post('/deleteQuestion', async (req, res) => {
     let { id } = req.body;
     let result = await Database.QuizQuestion.findByIdAndDelete(id);
     res.status(200).send();
-  } catch(err) {
+  } catch (err) {
     res.status(404).send("Question not found.");
   }
 })

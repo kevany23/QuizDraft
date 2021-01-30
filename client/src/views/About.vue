@@ -5,6 +5,15 @@
       A study web-based application that allows you to create practice quizzes
       with questions and answers.
     </p>
+    <p>
+      Our quizzes have different view modes.
+    </p>
+    <p>
+      Study mode views all the questions and answers and allows for changes
+    </p>
+    <p>
+      Flashcard mode hides all the answers initially.
+    </p>
   </div>
 </template>
 

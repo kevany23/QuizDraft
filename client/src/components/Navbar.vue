@@ -27,8 +27,12 @@
           <input type="text"
             class="input-group-text"
             placeholder="Find a Quiz"
+            v-on:keyup.enter="/*$router.push('/search?query=' + query)*/"
+            v-model="query"
           >
-          <b-button>Search</b-button>
+          <a v-bind:href="'/search?query=' + query">
+            <b-button>Search</b-button>
+          </a>
         </div>
         <b-nav-item>
         </b-nav-item>
@@ -45,6 +49,7 @@ export default {
   data() {
     return {
       searchMode: false,
+      query: ""
     };
   },
   methods: {

@@ -202,6 +202,8 @@ export default {
       })
       .then((res) => {
         this.quizQuestions.push(res.data);
+        this.newQuestion = "";
+        this.newAnswer = "";
       })
       .catch( () => {
         log("Error");

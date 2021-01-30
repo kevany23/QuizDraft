@@ -2,6 +2,7 @@
   <div id="mainDiv">
     <div>
       <h3>Welcome to Quizdraft!</h3>
+      <p>Please note that backend server may take a minute to boot up.</p>
     </div>
     <div id="formDiv">
       <h4>Create a New Quiz:</h4>
