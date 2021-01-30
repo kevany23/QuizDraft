@@ -98,6 +98,29 @@ app.post('/editQuiz/:id', async (req, res) => {
   }
 })
 
+app.post('/editQuestion', async (req, res) => {
+  try {
+    let { id, question, answer } = req.body;
+    let result = await Database.QuizQuestion.findByIdAndUpdate(id, {
+      question: question,
+      answer: answer,
+    })
+    res.status(200).send({ id, question, answer});
+  } catch(err) {
+    res.status(404).send("Question Edit Error");
+  }
+})
+
+app.post('/deleteQuestion', async (req, res) => {
+  try {
+    let { id } = req.body;
+    let result = await Database.QuizQuestion.findByIdAndDelete(id);
+    res.status(200).send();
+  } catch(err) {
+    res.status(404).send("Question not found.");
+  }
+})
+
 app.listen(port, () => {
   console.log("Server connected.")
 });

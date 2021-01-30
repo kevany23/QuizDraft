@@ -55,15 +55,18 @@
     <div id="questionDiv">
       <div v-if="mode == 1">
         <div
-          v-for="quizQuestion in this.quizQuestions"
-          :key="quizQuestion.id"
+          v-for="(quizQuestion, index) in this.quizQuestions"
+          :key="quizQuestion._id"
           class="questionCard"
         >
-          <b-card>
-            <p>{{ quizQuestion.question }}</p>
-            <br />
-            <p>{{ quizQuestion.answer }}</p>
-          </b-card>
+          <Quizcard
+            v-bind:index="index"
+            v-bind:id="quizQuestion._id"
+            v-bind:question="quizQuestion.question"
+            v-bind:answer="quizQuestion.answer"
+            @editQuestion="editQuestion"
+            @deleteQuestion="deleteQuestion"
+          />
         </div>
       </div>
       <div v-if="mode == 2">
@@ -108,6 +111,7 @@
 <script>
 import axios from "axios";
 import { log, url } from "@/config/config";
+import Quizcard from "@/components/Quizcard.vue"
 import Flashcard from "@/components/Flashcard.vue"
 
 /* Serves as 'enum' for display modes */
@@ -120,7 +124,8 @@ const mode = {
 export default {
   name: "QuizPage",
   components: {
-    Flashcard
+    Flashcard,
+    Quizcard
   },
   created() {
     this.quizName = "";
@@ -214,6 +219,42 @@ export default {
       .catch( () => {
         log("Error");
       });
+    },
+    editQuestion: function(id, newQuizQuestion) {
+      axios.post(url('editQuestion'), {
+        id: id,
+        question: newQuizQuestion.question,
+        answer: newQuizQuestion.answer, 
+      })
+      .then((res) => {
+        let { question, answer } = res.data;
+        for (let q of this.quizQuestions) {
+          if (q._id == id) {
+            q.question = question;
+            q.answer = answer;
+            break;
+          }
+        }
+      })
+      .catch( () => {
+        log("Error");
+      });
+    },
+    deleteQuestion: function(questionID) {
+      axios.post(url('deleteQuestion'), {
+        id: questionID,
+      })
+      .then(() => {
+        for (let i = 0; i < this.quizQuestions.length; i++) {
+          if (this.quizQuestions[i]._id == questionID) {
+            this.quizQuestions.splice(i, 1);
+            break;
+          }
+        }
+      })
+      .catch(() => {
+        log("Error");
+      });
     }
   }
 };
@@ -254,5 +295,10 @@ export default {
 .editQuizButton {
   margin-top: 10px;
   width: 80px;
+}
+
+.editQuestion {
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>

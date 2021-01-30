@@ -4,7 +4,7 @@
       <h3>Welcome to Quizdraft!</h3>
     </div>
     <div id="formDiv">
-      <h4>Create a form:</h4>
+      <h4>Create a New Quiz:</h4>
       <b-form>
         <label for="name">Quiz Name</label>
         <b-form-input
