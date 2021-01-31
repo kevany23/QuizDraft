@@ -81,6 +81,7 @@
         </div>
       </div>
       <div v-if="mode == 3">
+        <TestMode v-bind:quizQuestions="this.quizQuestions"/>
       </div>
     </div>
     <div>
@@ -113,6 +114,7 @@ import axios from "axios";
 import { log, url } from "@/config/config";
 import Quizcard from "@/components/Quizcard.vue"
 import Flashcard from "@/components/Flashcard.vue"
+import TestMode from "@/components/TestMode.vue"
 
 /* Serves as 'enum' for display modes */
 const mode = {
@@ -125,7 +127,8 @@ export default {
   name: "QuizPage",
   components: {
     Flashcard,
-    Quizcard
+    Quizcard,
+    TestMode
   },
   created() {
     this.quizName = "";
@@ -275,6 +278,7 @@ export default {
   align-items: center;
   padding-bottom: 30px;
   margin-bottom: 50px;
+  width: 700px;
 }
 .questionCard {
   width: 600px;

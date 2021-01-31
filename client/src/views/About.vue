@@ -14,6 +14,9 @@
     <p>
       Flashcard mode hides all the answers initially.
     </p>
+    <p>
+      Test Mode hides all the answers so you only see the questions.
+    </p>
   </div>
 </template>
 

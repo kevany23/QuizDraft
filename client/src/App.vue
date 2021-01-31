@@ -4,7 +4,9 @@
       <!-- Navbar should go here -->
       <Navbar/>
     </div>
-    <router-view/>
+    <div id="mainContainer">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -22,11 +24,22 @@ export default {
 
 <style>
 #app {
-  display: flex;
-  flex-direction: column;
   text-align: center;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: lightgray;
+}
+
+#mainContainer {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 90%;
+  margin: auto;
+  padding-top: 20px;
+  height: 80%;
+  padding-bottom: 50px;
 }
 </style>

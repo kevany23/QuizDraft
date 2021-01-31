@@ -8,6 +8,7 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.config.productionTip = false;
 document.title = "QuizDraft";
+document.body.style.backgroundColor = "lightGray";
 
 new Vue({
   router,
