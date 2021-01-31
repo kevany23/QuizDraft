@@ -9,6 +9,10 @@
         <h6>{{quiz.subject}}</h6>
       </a>
     </div>
+    <div v-if="isLoading" style="margin-top: 20px">
+      <b-spinner variant="primary" label="Spinning">
+      </b-spinner>
+    </div>
   </div>
 </template>
 
@@ -19,17 +23,21 @@ import { url, log } from '@/config/config'
 export default {
   name: "QuizList",
   created() {
+    this.isLoading = true;
     axios.get(url('quizList'))
     .then((res) => {
       this.quizList = res.data;
+      this.isLoading = false;
     })
     .catch(() => {
       log("Error");
+      this.isLoading = false;
     })
   },
   data: function() {
     return {
-      quizList: []
+      quizList: [],
+      isLoading: true
     }
   }
 };

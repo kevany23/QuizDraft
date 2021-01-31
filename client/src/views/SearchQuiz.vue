@@ -10,6 +10,10 @@
         <h6>{{quiz.subject}}</h6>
       </a>
     </div>
+    <div v-if="isLoading" style="margin-top: 20px">
+      <b-spinner variant="primary" label="Spinning">
+      </b-spinner>
+    </div>
   </div>
 </template>
 
@@ -20,18 +24,22 @@ import { url, log } from '@/config/config'
 export default {
   name: "SearchQuiz",
   created() {
+    this.isLoading = true;
     let q = this.$route.query.query;
     axios.get(url(`searchQuiz/?query=${q}`))
     .then((res) => {
       this.quizList = res.data;
+      this.isLoading = false;
     })
     .catch(() => {
       log("Error");
+      this.isLoading = false;
     })
   },
   data: function() {
     return {
-      quizList: []
+      quizList: [],
+      isLoading: true
     }
   },
 };
