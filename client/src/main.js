@@ -3,6 +3,15 @@ import App from './App.vue';
 import router from './router';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
+import GAuth from 'vue-google-oauth2';
+import { GOOGLE_CLIENT_ID } from './config/config';
+
+const gauthOption = {
+  clientId: GOOGLE_CLIENT_ID,
+  scope: 'profile email',
+  prompt: 'select_account'
+}
+Vue.use(GAuth, gauthOption);
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);

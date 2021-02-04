@@ -14,3 +14,5 @@ export function log(message) {
     console.log(message);
   }
 }
+
+export const GOOGLE_CLIENT_ID = process.env.VUE_APP_GOOGLE_CLIENT_ID;

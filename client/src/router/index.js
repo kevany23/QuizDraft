@@ -6,6 +6,7 @@ import VuePage from '../views/VuePage.vue'
 import QuizPage from '../views/QuizPage.vue'
 import QuizList from '../views/QuizList.vue'
 import SearchQuiz from '../views/SearchQuiz.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/search',
     name: 'SearchQuiz',
     component: SearchQuiz
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   }
 ]
 

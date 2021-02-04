@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const auth = require('./auth');
 const app = express();
 const port = process.env.PORT || 3000;
 console.log("PORT: " + port);
@@ -153,6 +154,24 @@ app.post('/deleteQuestion', async (req, res) => {
     res.status(200).send();
   } catch (err) {
     res.status(404).send("Question not found.");
+  }
+})
+
+app.post('/login', async (req, res) => {
+  try {
+    let code = req.body.code;
+    console.log(code);
+    //console.dir(auth.oauth2Client);
+    const { tokens } = await auth.oauth2Client.getToken({
+      code,
+      redirect_uri: 'postmessage'
+    });
+    console.log("Success");
+    //console.log(tokens);
+    res.status(200).send("Login successful");
+  } catch (err) {
+    console.log("Login error");
+    res.status(404).send("Login Error")
   }
 })
 
