@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const auth = require('./auth');
 const app = express();
 const port = process.env.PORT || 3000;
+const session = new Map();
 console.log("PORT: " + port);
 const Database = require('./database');
 const client = require('./client');
@@ -160,18 +161,30 @@ app.post('/deleteQuestion', async (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     let code = req.body.code;
-    console.log(code);
-    //console.dir(auth.oauth2Client);
     const { tokens } = await auth.oauth2Client.getToken({
       code,
       redirect_uri: 'postmessage'
     });
-    console.log("Success");
-    //console.log(tokens);
-    res.status(200).send("Login successful");
+    const { id_token, access_token } = tokens;
+    session.set(id_token, {});
+    res.status(200).send({ id_token, access_token });
+
   } catch (err) {
-    console.log("Login error");
-    res.status(404).send("Login Error")
+    res.status(404).send("Login Error");
+  }
+})
+
+app.post('/testLogin', (req, res) => {
+  try {
+    let token = req.body.authorization;
+    if (session.has(token)) {
+      //console.log("Logged In");
+      res.status(200).send("Logged In");
+    } else {
+      res.status(200).send("Not logged In");
+    }
+  } catch (err) {
+    res.status(404).send("Invalid");
   }
 })
 

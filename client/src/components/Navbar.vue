@@ -34,7 +34,17 @@
             <b-button>Search</b-button>
           </a>
         </div>
-        <b-nav-item>
+      </b-navbar-nav>
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item href="/login" v-if="!isLoggedIn">
+          <div class="navbarItem">
+              Log In
+          </div>
+        </b-nav-item>
+        <b-nav-item v-else v-on:click="logout">
+          <div class="navbarItem">
+            Log Out
+          </div>
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
@@ -42,19 +52,33 @@
 </template>
 
 <script>
-//import { log } from "@/config/config";
+import * as Login from "@/config/login";
 
 export default {
   name: "Navbar",
   data() {
     return {
       searchMode: false,
-      query: ""
+      query: "",
+      isLoggedIn: false,
     };
+  },
+  created() {
+    if (Login.isLoggedIn()) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
+    }
   },
   methods: {
     toggleSearch: function() {
       this.searchMode = ! this.searchMode;
+    },
+    logout: async function() {
+      Login.clearLogin();
+      this.isLoggedIn = false;
+      await this.$gAuth.signOut()
+      location.reload();
     }
   }
 };
