@@ -24,6 +24,10 @@ export const isLoggedIn = function() {
  * Adds token to object passed in TODO
  */
 
+ export const addAuthorization = function(obj) {
+   obj.authorization = sessionStorage['access_token'];
+ }
+
 /**
  * This function is convenient for spread operators when creating
  * json objects in requests

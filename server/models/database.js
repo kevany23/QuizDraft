@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const config = require('./config');
+const config = require('../config/config');
+const account = require('./account');
 var Schema = mongoose.Schema;
 const ObjectId = mongoose.ObjectId;
 
@@ -31,6 +32,14 @@ const QuizSchema = new Schema({
     type: String,
     default: ""
   },
+  private: {
+    type: Boolean,
+    default: false
+  },
+  author: {
+    type: String,
+    default: "",
+  }
 });
 const Quiz = mongoose.model('Quiz', QuizSchema, 'quizzes');
 
@@ -71,3 +80,4 @@ module.exports.Quiz = Quiz;
 module.exports.QuizQuestion = QuizQuestion;
 module.exports.getQuizQuestions = getQuizQuestions;
 module.exports.getQuizQuestionsById = getQuizQuestionsById;
+module.exports.Account = account.Account;

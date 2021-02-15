@@ -35,13 +35,20 @@
           </a>
         </div>
       </b-navbar-nav>
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item href="/login" v-if="!isLoggedIn">
+      <b-navbar-nav class="ml-auto" v-if="!isLoggedIn">
+        <b-nav-item href="/login">
           <div class="navbarItem">
               Log In
           </div>
         </b-nav-item>
-        <b-nav-item v-else v-on:click="logout">
+      </b-navbar-nav>
+      <b-navbar-nav class="ml-auto" v-else>
+        <b-nav-item href="/profile">
+          <div class="navbarItem">
+            Profile
+          </div>
+        </b-nav-item>
+        <b-nav-item v-on:click="logout">
           <div class="navbarItem">
             Log Out
           </div>

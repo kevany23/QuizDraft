@@ -28,18 +28,18 @@ export default {
   methods: {
     handleLogin: async function() {
       try {
-        /*const user = await this.$gAuth.signIn();
-        if (! user) {
-          return null;
-        }
-        log(user)
-        log(this.$gAuth.isAuthorized);*/
         let ac = await this.$gAuth.getAuthCode();
+        /*const user = await this.$gAuth.signIn();
+        let ac = await this.$gAuth.getAuthCode();
+        log(user);
+        log(user.getBasicProfile());
+        log(user.getAuthResponse());*/
+        //let ac = user.access_token;
         log(ac);
         let resp = await axios.post(url('login'), {
           code: ac
         });
-        Login.setLoginToken(resp.data.id_token);
+        Login.setLoginToken(resp.data.access_token);
         location.reload();
       } catch (err) {
         log(err);

@@ -9,7 +9,8 @@ import { GOOGLE_CLIENT_ID } from './config/config';
 const gauthOption = {
   clientId: GOOGLE_CLIENT_ID,
   scope: 'profile email',
-  prompt: 'select_account'
+  prompt: 'select_account',
+  fetch_basic_profile: true
 }
 Vue.use(GAuth, gauthOption);
 

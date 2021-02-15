@@ -4,14 +4,16 @@ const bodyParser = require('body-parser');
 const auth = require('./auth');
 const app = express();
 const port = process.env.PORT || 3000;
-const session = new Map();
+const session = require('./session');
 console.log("PORT: " + port);
-const Database = require('./database');
-const client = require('./client');
+const Database = require('./models/database');
+const client = require('./routers/client');
+const accountRouter = require('./routers/account');
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/client', client);
+app.use('/account', accountRouter);
 
 app.set('view engine', 'ejs');
 
@@ -161,15 +163,41 @@ app.post('/deleteQuestion', async (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     let code = req.body.code;
-    const { tokens } = await auth.oauth2Client.getToken({
+    const result = await auth.oauth2Client.getToken({
       code,
       redirect_uri: 'postmessage'
     });
-    const { id_token, access_token } = tokens;
-    session.set(id_token, {});
-    res.status(200).send({ id_token, access_token });
-
+    const tokens = result.tokens;
+    const { id_token } = tokens;
+    let userLookup = await auth.exchangeUserInfo(id_token);
+    let user = userLookup.data;
+    let email = user.email;
+    // Need to create/get account here
+    // Lookup if account is created already
+    let accountLookup = await Database.Account.findOne({ email });
+    //console.log(accountLookup);
+    //otherwise new account
+    if (accountLookup == null) {
+      let username = email.split('@')[0];
+      let newAccount = new Database.Account({
+        username: username,
+        email: email,
+      })
+      let result = await newAccount.save();
+      accountLookup = result;
+      //console.log(result);
+    }
+    else {
+      console.log("Account already created");
+    }
+    let session_token = auth.generateSessionToken();
+    session.set(session_token, {
+      email: email,
+      accountId: accountLookup._id
+    });
+    res.status(200).send({ access_token: session_token });
   } catch (err) {
+    console.log(err);
     res.status(404).send("Login Error");
   }
 })
