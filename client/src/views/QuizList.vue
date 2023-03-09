@@ -24,7 +24,10 @@ export default {
   name: "QuizList",
   created() {
     this.isLoading = true;
-    axios.get(url('quizList'))
+    axios.get(url('quizList'), {
+      headers:{
+        "Access-Control-Allow-Origin": "*"
+    }})
     .then((res) => {
       this.quizList = res.data;
       this.isLoading = false;

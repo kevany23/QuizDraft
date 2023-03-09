@@ -49,6 +49,10 @@ export default {
       axios.post(url('createQuiz'), {
         quizName: this.createQuizName,
         quizSubject: this.createQuizSubject
+      },{
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        }
       })
       .then((res) => {
         log("Success");
