@@ -11,6 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/client', client);
 
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  next();
+});
+
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
